@@ -9,9 +9,9 @@ $(document).ready(function(){
 
 	var createUIListItem = function(item){
 		var li = $(document.createElement("li"));
-		var label = createLabelElement(item, {for: "item-" + item.toLowerCase()});
+		var label = createLabelElement(item, {for: item.toLowerCase()});
 		var input = createInputElement({
-			id: "item-" + item.toLowerCase(),
+			id: item.toLowerCase(),
 			type: "checkbox",
 			checked: true
 		});
@@ -28,11 +28,18 @@ $(document).ready(function(){
 		return $(document.createElement("input")).attr(inputAttributes);
 	};
 
-	var populateUIListFromArray = function(array){
+	var populateUIListFromArray = function(array, container){
 		$.each(array, function(key, item){
-			ALL_ITEMS_CONTAINER.append(createUIListItem(item))
+			if (!Array.isArray(item)){
+				container.append(createUIListItem(item));
+			}
+			else {
+				container.append($(document.createElement("hr")));
+				populateUIListFromArray(item, container);
+			};
 		});
 	};
 
-	populateUIListFromArray(mockItems);
+	populateUIListFromArray(mockItems, ALL_ITEMS_CONTAINER);
+	populateUIListFromArray(mockFilters, FILTERS_CONTAINER);
 });
