@@ -1,4 +1,3 @@
-var spinInterval;
 $(document).ready(function(){
 	class Wheel {
 		constructor(wheelSize, wheelContainer) {
@@ -13,7 +12,7 @@ $(document).ready(function(){
 			this.init();
 		}
 
-		// Getters
+		// Setters/getters
 		get centerX() {
 			return this.circleCenter.x - this.canvasOffset.x;
 		}
@@ -22,16 +21,28 @@ $(document).ready(function(){
 			return this.circleCenter.y - this.canvasOffset.y;
 		}
 
+		set currentRotation(deltaAngle) {
+			if (deltaAngle > 2 * Math.PI){
+				deltaAngle -= 2 * Math.PI;
+			}
+			this.rotation = deltaAngle;
+		}
+
+		get currentRotation() {
+			return this.rotation;
+		}
+
 		// Functions
 		init() {
 			this.drawWheel();
-			this.drawSegments();
 			this.drawNeedle();
 			this.spin(this);
 		}
 
 		drawWheel() {
+			this.canvas.clear();
 			this.drawCircle(this.centerX, this.centerY, this.diameter);
+			this.drawSegments();
 		}
 
 		drawCircle(x, y, d) {
@@ -71,21 +82,15 @@ $(document).ready(function(){
 		}
 
 		spin(wheel) {
-			spinInterval = setInterval( function() {
-				console.log(wheel.diameter)
-				// Move upper left canvas corner to circles center
+			var spinInterval = setInterval( function() {
 				wheel.ctx.save();
 				wheel.ctx.translate(wheel.centerX, wheel.centerY);
-				wheel.ctx.rotate(wheel.rotation);
-				wheel.rotation += 0.1;
-				// Offsets the circle so the center is 0,0
+				wheel.ctx.rotate(wheel.currentRotation);
+				wheel.currentRotation += 0.1;
 				wheel.canvasOffset = wheel.circleCenter;
-				// Redraw everything
 				wheel.drawWheel();
-				wheel.drawSegments();
-				wheel.ctx.restore();
-				// Remove offset
 				wheel.canvasOffset = {x: 0, y: 0};
+				wheel.ctx.restore();
 				wheel.drawNeedle();
 			}, 20);
 		}
@@ -112,7 +117,6 @@ $(document).ready(function(){
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		}
 	}
-
 
 	var container = $("#wheelContainer")[0];
 	var wheel = new Wheel(250, container);
