@@ -1,13 +1,16 @@
+var spinInterval;
 $(document).ready(function(){
 	class Wheel {
-		constructor(canvasContext) {
-			this.ctx = canvasContext;
+		constructor(wheelSize, wheelContainer) {
 			this.segments = ["90 deg", "180 deg", "270 deg", "360 deg"];
 			this.colors = ["red", "blue", "green", "yellow", "pink", "orange", "violet"];
-			this.diameter = 250;
-			this.circleCenter = {x: 500, y: 300};
+			this.diameter = wheelSize;
+			this.circleCenter = {x: wheelSize + 50, y: wheelSize + 50};
 			this.canvasOffset = {x: 0, y: 0};
 			this.rotation = 0;
+			this.canvas = new Canvas(wheelContainer, this.circleCenter.x);
+			this.ctx = this.canvas.context;
+			this.init();
 		}
 
 		// Getters
@@ -20,6 +23,13 @@ $(document).ready(function(){
 		}
 
 		// Functions
+		init() {
+			this.drawWheel();
+			this.drawSegments();
+			this.drawNeedle();
+			this.spin(this);
+		}
+
 		drawWheel() {
 			this.drawCircle(this.centerX, this.centerY, this.diameter);
 		}
@@ -60,15 +70,16 @@ $(document).ready(function(){
 			this.ctx.stroke();
 		}
 
-		spin() {
-			var spinInterval = setInterval( function() {
-				// Offsets the circle so the center is 0,0
-				wheel.canvasOffset = wheel.circleCenter;
+		spin(wheel) {
+			spinInterval = setInterval( function() {
+				console.log(wheel.diameter)
 				// Move upper left canvas corner to circles center
 				wheel.ctx.save();
-				wheel.ctx.translate(500, 300);
+				wheel.ctx.translate(wheel.centerX, wheel.centerY);
 				wheel.ctx.rotate(wheel.rotation);
 				wheel.rotation += 0.1;
+				// Offsets the circle so the center is 0,0
+				wheel.canvasOffset = wheel.circleCenter;
 				// Redraw everything
 				wheel.drawWheel();
 				wheel.drawSegments();
@@ -80,12 +91,30 @@ $(document).ready(function(){
 		}
 	}
 
-	var ctx = $("#canvas")[0].getContext('2d');
-	var wheel = new Wheel(ctx);
+	class Canvas {
+		constructor(container, size) {
+			this.canvas = this.createCanvas(container, size);
+			this.context = this.canvas.getContext("2d");
+		}
 
-	wheel.drawWheel();
-	wheel.drawSegments();
-	wheel.drawNeedle();
-	wheel.spin();
-	
+		createCanvas(container, size){
+			var canvas = $(document.createElement("canvas")).attr({
+				style: "border:1px solid #000000;",
+				height: size * 2,
+				width: size * 2 + 400,
+				id: "canvas"
+			})[0];
+			container.append(canvas);
+			return canvas;
+		}
+
+		clear() {
+			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		}
+	}
+
+
+	var container = $("#wheelContainer")[0];
+	var wheel = new Wheel(250, container);
 });
+
