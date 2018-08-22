@@ -5,33 +5,46 @@ $(document).ready(function(){
 			this.segments = ["90 deg", "180 deg", "270 deg", "360 deg"];
 			this.colors = ["red", "blue", "green", "yellow", "pink", "orange", "violet"];
 			this.diameter = 250;
-			this.centerX = 500;
-			this.centerY = 300;
+			this.circleCenter = {x: 500, y: 300};
+			this.canvasOffset = {x: 0, y: 0};
 			this.rotation = 0;
 		}
 
-		drawWheel(offset = 0) {
+		// Getters
+		get centerX() {
+			return this.circleCenter.x - this.canvasOffset.x;
+		}
+
+		get centerY() {
+			return this.circleCenter.y - this.canvasOffset.y;
+		}
+
+		// Functions
+		drawWheel() {
+			this.drawCircle(this.centerX, this.centerY, this.diameter);
+		}
+
+		drawCircle(x, y, d) {
 			this.ctx.beginPath();
-			this.ctx.arc(this.centerX, this.centerY, this.diameter, 0 , 2 * Math.PI);
+			this.ctx.arc(x, y, d, 0 , 2 * Math.PI);
 			this.ctx.stroke();
 		}
 
 		drawSegments() {
-			var startAngle = 0;
-			var numOfSeg = this.segments.length;
-			for (var i = 0; i < numOfSeg; i++) {
-				var endAngle = (2 * Math.PI / numOfSeg) * (i + 1);
-				this.drawSegment(startAngle, endAngle);
+			var endAngle, startAngle = 0;
+			for (var i = 0; i < this.segments.length; i++) {
+				endAngle = (2 * Math.PI / this.segments.length) * (i + 1);
+				this.drawSegment(startAngle, endAngle, i);
 				startAngle = endAngle;
 			}
 		}
 
-		drawSegment(angle1, angle2) {
+		drawSegment(angle1, angle2, i) {
 			this.ctx.beginPath();
 			this.ctx.arc(this.centerX, this.centerY, this.diameter, angle1, angle2);
 			this.ctx.lineTo(this.centerX, this.centerY);
 			this.ctx.closePath();
-			this.ctx.fillStyle = this.colors[Math.floor(Math.random()*7)];
+			this.ctx.fillStyle = this.colors[i];
 			this.ctx.fill();
 			this.ctx.stroke();
 		}
@@ -49,30 +62,19 @@ $(document).ready(function(){
 
 		spin() {
 			var spinInterval = setInterval( function() {
-
+				// Offsets the circle so the center is 0,0
+				wheel.canvasOffset = wheel.circleCenter;
+				// Move upper left canvas corner to circles center
 				wheel.ctx.save();
 				wheel.ctx.translate(500, 300);
 				wheel.ctx.rotate(wheel.rotation);
 				wheel.rotation += 0.1;
-
-				wheel.ctx.beginPath();
-				wheel.ctx.arc(0, 0, 250, 0 , 2 * Math.PI);
-				wheel.ctx.stroke();
-
-				var start = 0;
-
-				for (var i = 0; i < 4; i++) {
-					var end = (2 * Math.PI / 4) * (i + 1);
-					wheel.ctx.beginPath();
-					wheel.ctx.arc(0, 0, 250, start, end)
-					wheel.ctx.lineTo(0, 0);
-					wheel.ctx.closePath();
-					wheel.ctx.fillStyle = "yellow";
-					wheel.ctx.fill();
-					wheel.ctx.stroke();
-					start = end;
-				}
+				// Redraw everything
+				wheel.drawWheel();
+				wheel.drawSegments();
 				wheel.ctx.restore();
+				// Remove offset
+				wheel.canvasOffset = {x: 0, y: 0};
 				wheel.drawNeedle();
 			}, 20);
 		}
@@ -80,6 +82,7 @@ $(document).ready(function(){
 
 	var ctx = $("#canvas")[0].getContext('2d');
 	var wheel = new Wheel(ctx);
+
 	wheel.drawWheel();
 	wheel.drawSegments();
 	wheel.drawNeedle();
