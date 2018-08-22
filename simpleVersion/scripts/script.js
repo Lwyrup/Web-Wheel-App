@@ -7,17 +7,30 @@ $(document).ready(function(){
 		["Appetizer", "Main Course", "Dessert"]
 	];
 
-	var createUIListItem = function(){
+	var createUIListItem = function(item){
 		var li = $(document.createElement("li"));
-		var input = $(document.createElement("input"));
-		var label = $(document.createElement("label"));
-
+		var label = createLabelElement(item, {for: "item-" + item.toLowerCase()});
+		var input = createInputElement({
+			id: "item-" + item.toLowerCase(),
+			type: "checkbox",
+			checked: true
+		});
 		return li.append(input).append(label);
+	};
+
+	var createLabelElement = function(labelText, labelAttributes = {}){
+		return $(document.createElement("label"))
+			.attr(labelAttributes)
+			.text(labelText);
+	};
+
+	var createInputElement = function(inputAttributes = {}){
+		return $(document.createElement("input")).attr(inputAttributes);
 	};
 
 	var populateUIListFromArray = function(array){
 		$.each(array, function(key, item){
-			ALL_ITEMS_CONTAINER.append(createUIListItem())
+			ALL_ITEMS_CONTAINER.append(createUIListItem(item))
 		});
 	};
 
