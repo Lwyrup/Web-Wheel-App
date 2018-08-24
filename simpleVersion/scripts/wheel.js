@@ -67,6 +67,20 @@ class Wheel {
 		this.ctx.fillStyle = this.colors[i];
 		this.ctx.fill();
 		this.ctx.stroke();
+
+		this.drawText(angle2, i);
+	}
+
+	drawText(angle, i) {
+		this.ctx.save();
+		this.ctx.translate(this.centerX, this.centerY);
+		this.ctx.rotate(angle);
+
+		this.ctx.font = "30px Arial";
+		this.ctx.fillStyle = "#000000"
+		this.ctx.fillText(this.segments[i], 0, 0);
+
+		this.ctx.restore();
 	}
 
 	drawNeedle() {
