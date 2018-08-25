@@ -35,7 +35,6 @@ class Wheel {
 	init() {
 		this.drawWheel();
 		this.drawNeedle();
-		// this.spin();
 	}
 
 	drawWheel() {
@@ -76,9 +75,9 @@ class Wheel {
 		this.ctx.rotate(angle);
 
 		this.ctx.font = "30px Arial";
-		this.ctx.textAlign = "left";
+		this.ctx.textAlign = "right";
 		this.ctx.fillStyle = "#000000"
-		this.ctx.fillText(text, 125, 15);
+		this.ctx.fillText(text, 240, 15);
 
 		this.ctx.restore();
 	}
@@ -95,7 +94,7 @@ class Wheel {
 	}
 
 	spin(wheel = this) {
-		var initSpeed = 0.2;
+		var initSpeed = 0.2 + 0.1 * Math.random();
 		var acceleration = 0.001;
 		var spinInterval = setInterval( function() {
 			if (initSpeed > 0) {
@@ -110,7 +109,6 @@ class Wheel {
 				wheel.canvasOffset = {x: 0, y: 0};
 				wheel.ctx.restore();
 				wheel.drawNeedle();	
-				// Correct only when spinning anti-clockwise
 				wheel.determineResult();
 			} else if (initSpeed <= 0) {
 				clearInterval(spinInterval);
@@ -119,10 +117,17 @@ class Wheel {
 	}
 
 	determineResult(wheel = this) {
+		// Correct only when spinning anti-clockwise
 		var radsPSeg = 2 * Math.PI / wheel.segments.length;
 		var pickedIndex = Math.floor(wheel.currentRotation / radsPSeg);
 		var pickedSeg = wheel.segments[pickedIndex];
-		console.log(pickedSeg);
+		wheel.displayResult(wheel, pickedSeg);
+	}
+
+	displayResult(wheel = this, text) {
+		wheel.ctx.font = "30px Arial";
+		wheel.ctx.fillStyle = "#000000";
+		wheel.ctx.fillText(text, wheel.centerX * 2, wheel.centerY + 15);
 	}
 }
 
