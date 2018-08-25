@@ -111,11 +111,18 @@ class Wheel {
 				wheel.ctx.restore();
 				wheel.drawNeedle();	
 				// Correct only when spinning anti-clockwise
-				console.log(wheel.segments[Math.ceil((wheel.currentRotation)*57.2958 / 90)-1])
+				wheel.determineResult();
 			} else if (initSpeed <= 0) {
 				clearInterval(spinInterval);
 			}
 		}, 20);
+	}
+
+	determineResult(wheel = this) {
+		var radsPSeg = 2 * Math.PI / wheel.segments.length;
+		var pickedIndex = Math.floor(wheel.currentRotation / radsPSeg);
+		var pickedSeg = wheel.segments[pickedIndex];
+		console.log(pickedSeg);
 	}
 }
 
