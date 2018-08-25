@@ -21,7 +21,7 @@ class Wheel {
 	}
 
 	set currentRotation(deltaAngle) {
-		if (deltaAngle > 2 * Math.PI){
+		if (deltaAngle > 2 * Math.PI) {
 			deltaAngle -= 2 * Math.PI;
 		}
 		this.rotation = deltaAngle;
@@ -67,18 +67,18 @@ class Wheel {
 		this.ctx.fillStyle = this.colors[i];
 		this.ctx.fill();
 		this.ctx.stroke();
-
-		this.drawText(angle2, i);
+		this.drawText((angle1 + angle2)/2, this.segments[i]);
 	}
 
-	drawText(angle, i) {
+	drawText(angle, text) {
 		this.ctx.save();
 		this.ctx.translate(this.centerX, this.centerY);
 		this.ctx.rotate(angle);
 
 		this.ctx.font = "30px Arial";
+		this.ctx.textAlign = "left";
 		this.ctx.fillStyle = "#000000"
-		this.ctx.fillText(this.segments[i], 0, 0);
+		this.ctx.fillText(text, 125, 15);
 
 		this.ctx.restore();
 	}
@@ -95,13 +95,14 @@ class Wheel {
 	}
 
 	spin(wheel = this) {
-		var initSpeed = 0.3;
+		var initSpeed = 0.2;
 		var acceleration = 0.001;
 		var spinInterval = setInterval( function() {
 			if (initSpeed > 0) {
+				wheel.canvas.clear();
 				wheel.ctx.save();
 				wheel.ctx.translate(wheel.centerX, wheel.centerY);
-				wheel.ctx.rotate(wheel.currentRotation);
+				wheel.ctx.rotate(-wheel.currentRotation);
 				wheel.currentRotation += initSpeed;
 				initSpeed -= acceleration;
 				wheel.canvasOffset = wheel.circleCenter;
@@ -109,6 +110,8 @@ class Wheel {
 				wheel.canvasOffset = {x: 0, y: 0};
 				wheel.ctx.restore();
 				wheel.drawNeedle();	
+				// Correct only when spinning anti-clockwise
+				console.log(wheel.segments[Math.ceil((wheel.currentRotation)*57.2958 / 90)-1])
 			} else if (initSpeed <= 0) {
 				clearInterval(spinInterval);
 			}
