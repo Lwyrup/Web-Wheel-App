@@ -145,6 +145,7 @@ class Canvas {
 			id: "canvas",
 			onclick: "wheel.spin()"
 		})[0];
+		container.innerHTML = null;
 		container.append(canvas);
 		return canvas;
 	}
