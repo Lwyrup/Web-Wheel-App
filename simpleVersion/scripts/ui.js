@@ -3,8 +3,8 @@ const FILTERS_CONTAINER = $(".filters");
 
 var mockFilters =
 [
-	["Hot", "Cold"],
-	["Appetizer", "Main Course", "Dessert"]
+	["hot", "cold"],
+	["appetizer", "main course", "dessert"]
 ];
 
 var mockItems = 
@@ -37,56 +37,94 @@ var mockItems =
 
 
 
-// var mockItems = ["Pizza", "Nachos", "Salad", "Pasta", "Steak", "Ice Cream"];
-// var mockFilters = [
-// 	["Hot", "Cold"],
-// 	["Appetizer", "Main Course", "Dessert"]
-// ];
 
-var createUIListItem = function(item) {
-	var li = $(document.createElement("li"));
-	debugger;
-	var label = createLabelElement(item, {for: item.toLowerCase()});
-	var input = createInputElement({
-		id: item.toLowerCase(),
-		type: "checkbox",
-		checked: true,
-		onchange: "update()"
-	});
-	return li.append(input).append(label);
-};
+class WheelUI {
+	constructor(items, filters, containers) {
+		this.items = items;
+		this.itemNames = this.getNames();
+		this.filters = filters;
+		this.itemsContainer = containers[0];
+		this.filterContainer = containers[1];
+		this.init();
+	}
 
-var createLabelElement = function(labelText, labelAttributes = {}) {
-	return $(document.createElement("label"))
-		.attr(labelAttributes)
-		.text(labelText);
-};
+	init() {
+		this.populateUIListFromArray(this.itemNames, this.itemsContainer);
+		this.linkNodesToItems();
+		this.populateUIListFromArray(this.filters, this.filterContainer);
+		this.update();
+	}
 
-var createInputElement = function(inputAttributes = {}) {
-	return $(document.createElement("input")).attr(inputAttributes);
-};
-
-var populateUIListFromArray = function(array, container) {
-	$.each(array, function(key, item) {
-		if (!Array.isArray(item)) {
-			container.append(createUIListItem(item));
+	linkNodesToItems() {
+		var itemInputs = this.itemsContainer.find("input")
+		for (var i = 0; i < itemInputs.length; i++) {
+			debugger
+			this.items[i]["node"] = itemInputs[i];
 		}
-		else {
-			container.append($(document.createElement("hr")));
-			populateUIListFromArray(item, container);
+	}
+
+	getNames() {
+		var array = [];
+		$.each(this.items, function(key, item) {
+			array.push(item["name"]);
+		});
+		return array;
+	}
+
+	createUIListItem(item) {
+		var li = $(document.createElement("li"));
+		var label = this.createLabelElement(item, {for: item.toLowerCase()});
+		var input = this.createInputElement({
+			id: item.toLowerCase(),
+			type: "checkbox",
+			checked: true,
+			onchange: "ui.update()"
+		});
+		return li.append(input).append(label);
+	}
+
+	createLabelElement(labelText, labelAttributes = {}) {
+		return $(document.createElement("label"))
+			.attr(labelAttributes)
+			.text(labelText);
+	}
+
+	createInputElement(inputAttributes = {}) {
+		return $(document.createElement("input")).attr(inputAttributes);
+	}
+
+	populateUIListFromArray(array, container) {
+		for (var i = 0; i < array.length; i++) {
+			if (!Array.isArray(array[i])) {
+				container.append(this.createUIListItem(array[i]));
+			}
+			else {
+				container.append($(document.createElement("hr")));
+				this.populateUIListFromArray(array[i], container);
+			};
 		};
-	});
-};
+	}
+
+	getSelected() {
+		var array = [];
+		for (var i = 0; i < this.items.length; i++) {
+			if (this.items[i]["node"].checked) {
+				array.push(this.items[i]["name"]);
+			};
+		};
+		return array;
+	}
+
+	update() {
+		
+		console.log(this.getSelected());
+		// Update wheel with this.getSelected
+	}
+}
 
 
-var items = [];
+var containers = [ALL_ITEMS_CONTAINER, FILTERS_CONTAINER];
 
-for (var i = 0; i < mockItems.length; i++) { 
-	items.push(mockItems[i]["name"]) 
-};
-
-populateUIListFromArray(items, ALL_ITEMS_CONTAINER);
-populateUIListFromArray(mockFilters, FILTERS_CONTAINER);
-
+var ui = new WheelUI(mockItems, mockFilters, containers);
 
 
