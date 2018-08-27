@@ -12,7 +12,8 @@ var createUIListItem = function(item) {
 	var input = createInputElement({
 		id: item.toLowerCase(),
 		type: "checkbox",
-		checked: true
+		checked: true,
+		onchange: "update()"
 	});
 	return li.append(input).append(label);
 };
