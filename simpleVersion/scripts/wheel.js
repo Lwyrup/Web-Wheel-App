@@ -1,6 +1,6 @@
 class Wheel {
-	constructor(wheelSize, wheelContainer) {
-		this.segments = ["90 deg", "180 deg", "270 deg", "360 deg"];
+	constructor(wheelSize, segmentArray, wheelContainer) {
+		this.segments = segmentArray;
 		this.colors = ["red", "blue", "green", "yellow", "pink", "orange", "violet"];
 		this.diameter = wheelSize;
 		this.circleCenter = {x: wheelSize + 50, y: wheelSize + 50};
@@ -162,6 +162,6 @@ $.each($(".all-items li > label"), function(key, item) {
 });
 
 var container = $("#wheelContainer")[0];
-var wheel = new Wheel(250, container);
+var wheel = new Wheel(250, allItemsArray, container);
 
 
