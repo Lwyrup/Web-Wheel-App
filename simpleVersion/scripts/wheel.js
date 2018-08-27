@@ -157,14 +157,24 @@ class Canvas {
 
 // TODO's
 // Added functionality to change wheel via ui
-var allItemsArray = [];
-$.each($(".all-items li"), function(key, item) {
-	if ($(item).children("input")[0].checked) {
-		allItemsArray.push($(item).children("label").text());
-	}
-});
 
-var container = $("#wheelContainer")[0];
-var wheel = new Wheel(250, allItemsArray, container);
+var update = function() {
+	var container = $("#wheelContainer")[0];
+	var allItemsArray = [];
+
+	$.each($(".all-items li"), function(key, item) {
+		if ($(item).children("input")[0].checked) {
+			allItemsArray.push($(item).children("label").text());
+		}
+	});
+
+	wheel = new Wheel(250, allItemsArray, container);
+}
+
+var wheel;
+update();
+
+// var container = $("#wheelContainer")[0];
+// var wheel = new Wheel(250, allItemsArray, container);
 
 
