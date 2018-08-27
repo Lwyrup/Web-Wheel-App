@@ -154,6 +154,13 @@ class Canvas {
 	}
 }
 
+// TODO's
+// Added functionality to change wheel via ui
+var allItemsArray = [];
+$.each($(".all-items li > label"), function(key, item) {
+	allItemsArray.push($(item).text())
+});
+
 var container = $("#wheelContainer")[0];
 var wheel = new Wheel(250, container);
 
