@@ -1,3 +1,5 @@
+// TODO: Refactor/move drawing implementation into canvas class?
+
 class Wheel {
 	constructor(wheelSize, segmentArray, wheelContainer) {
 		this.segments = segmentArray;
@@ -120,7 +122,7 @@ class Wheel {
 		// Correct only when spinning anti-clockwise
 		var radsPSeg = 2 * Math.PI / wheel.segments.length;
 		var pickedIndex = Math.floor(wheel.currentRotation / radsPSeg);
-		var pickedSeg = wheel.segments[pickedIndex]["name"];
+		var pickedSeg = wheel.segments[pickedIndex];
 		wheel.displayResult(wheel, pickedSeg);
 	}
 
