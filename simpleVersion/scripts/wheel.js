@@ -11,7 +11,7 @@ class Wheel {
 		this.init();
 	}
 
-	// Setters/getters
+	// Setters/Getters
 	get centerX() {
 		return this.circleCenter.x - this.canvasOffset.x;
 	}
@@ -120,7 +120,7 @@ class Wheel {
 		// Correct only when spinning anti-clockwise
 		var radsPSeg = 2 * Math.PI / wheel.segments.length;
 		var pickedIndex = Math.floor(wheel.currentRotation / radsPSeg);
-		var pickedSeg = wheel.segments[pickedIndex];
+		var pickedSeg = wheel.segments[pickedIndex]["name"];
 		wheel.displayResult(wheel, pickedSeg);
 	}
 
@@ -154,27 +154,3 @@ class Canvas {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 }
-
-// TODO's
-// Added functionality to change wheel via ui
-
-var update = function() {
-	var container = $("#wheelContainer")[0];
-	var allItemsArray = [];
-
-	$.each($(".all-items li"), function(key, item) {
-		if ($(item).children("input")[0].checked) {
-			allItemsArray.push($(item).children("label").text());
-		}
-	});
-
-	wheel = new Wheel(250, allItemsArray, container);
-}
-
-var wheel;
-update();
-
-// var container = $("#wheelContainer")[0];
-// var wheel = new Wheel(250, allItemsArray, container);
-
-
