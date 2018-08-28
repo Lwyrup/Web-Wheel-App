@@ -1,12 +1,12 @@
+// Init declarations and assignments
 const ALL_ITEMS_CONTAINER = $(".all-items");
 const FILTERS_CONTAINER = $(".filters");
-
+var wheel;
 var mockFilters =
 [
 	["hot", "cold"],
 	["appetizer", "main course", "dessert"]
 ];
-
 var mockItems = 
 [
 	{
@@ -34,9 +34,6 @@ var mockItems =
 		filters: [mockFilters[1][2], mockFilters[0][1]]
 	}
 ];
-
-
-
 
 class WheelUI {
 	constructor(items, filters, containers) {
@@ -118,7 +115,7 @@ class WheelUI {
 	setByFilter(filter, bool) {
 		$.each(this.items, function(key, item) {
 			if (item["filters"].includes(filter.toLowerCase())) {
-				item["node"].checked = bool
+				item["node"].checked = bool;
 			}
 		});
 	}
@@ -127,15 +124,12 @@ class WheelUI {
 		if (filterInput) {
 			this.setByFilter(filterInput.id, filterInput.checked);
 		}
-
-		console.log(this.checkedItems);
-		// Update wheel with this.checkedItems
+		wheel = new Wheel(250, this.checkedItems, $("#wheelContainer")[0]);
 	}
 }
 
-
+// Execution begins here
 var containers = [ALL_ITEMS_CONTAINER, FILTERS_CONTAINER];
-
 var ui = new WheelUI(mockItems, mockFilters, containers);
 
 
