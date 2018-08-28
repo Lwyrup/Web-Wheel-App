@@ -58,12 +58,6 @@ class WheelUI {
 
 	get checkedItems() {
 		var array = [];
-		// for (var i = 0; i < this.items.length; i++) {
-		// 	if (this.items[i]["node"].checked) {
-		// 		array.push(this.items[i]["name"]);
-		// 	};
-		// };
-
 		$.each(this.items, function(key, item) {
 			if (item["node"].checked) {
 				array.push(item["name"]);
@@ -122,17 +116,18 @@ class WheelUI {
 	}
 
 	setByFilter(filter, bool) {
-		for (var i = 0; i < this.items.length; i++) {
-			if (this.items[i]["filters"].includes(filter.toLowerCase())) {
-				this.items[i]["node"].checked = bool;
+		$.each(this.items, function(key, item) {
+			if (item["filters"].includes(filter.toLowerCase())) {
+				item["node"].checked = bool
 			}
-		}
+		});
 	}
 
 	update(filterInput = null) {
 		if (filterInput) {
 			this.setByFilter(filterInput.id, filterInput.checked);
 		}
+
 		console.log(this.checkedItems);
 		// Update wheel with this.checkedItems
 	}
