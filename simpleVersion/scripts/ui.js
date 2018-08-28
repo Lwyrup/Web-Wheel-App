@@ -41,13 +41,38 @@ var mockItems =
 class WheelUI {
 	constructor(items, filters, containers) {
 		this.items = items;
-		this.itemNames = this.getNames();
 		this.filters = filters;
 		this.itemsContainer = containers[0];
 		this.filterContainer = containers[1];
 		this.init();
 	}
 
+	// Setters/Getters
+	get itemNames() {
+		var array = [];
+		$.each(this.items, function(key, item) {
+			array.push(item["name"]);
+		});
+		return array;
+	}
+
+	get checkedItems() {
+		var array = [];
+		// for (var i = 0; i < this.items.length; i++) {
+		// 	if (this.items[i]["node"].checked) {
+		// 		array.push(this.items[i]["name"]);
+		// 	};
+		// };
+
+		$.each(this.items, function(key, item) {
+			if (item["node"].checked) {
+				array.push(item["name"]);
+			}
+		});
+		return array;
+	}
+
+	// Functions
 	init() {
 		this.populateUIListFromArray(this.itemNames, this.itemsContainer, "ui.update()");
 		this.linkNodesToItems();
@@ -60,14 +85,6 @@ class WheelUI {
 		for (var i = 0; i < itemInputs.length; i++) {
 			this.items[i]["node"] = itemInputs[i];
 		}
-	}
-
-	getNames() {
-		var array = [];
-		$.each(this.items, function(key, item) {
-			array.push(item["name"]);
-		});
-		return array;
 	}
 
 	createUIListItem(item, onchangeFunc) {
@@ -104,16 +121,6 @@ class WheelUI {
 		};
 	}
 
-	getSelected() {
-		var array = [];
-		for (var i = 0; i < this.items.length; i++) {
-			if (this.items[i]["node"].checked) {
-				array.push(this.items[i]["name"]);
-			};
-		};
-		return array;
-	}
-
 	setByFilter(filter, bool) {
 		for (var i = 0; i < this.items.length; i++) {
 			if (this.items[i]["filters"].includes(filter.toLowerCase())) {
@@ -126,8 +133,8 @@ class WheelUI {
 		if (filterInput) {
 			this.setByFilter(filterInput.id, filterInput.checked);
 		}
-		console.log(this.getSelected());
-		// Update wheel with this.getSelected
+		console.log(this.checkedItems);
+		// Update wheel with this.checkedItems
 	}
 }
 
