@@ -49,16 +49,15 @@ class WheelUI {
 	}
 
 	init() {
-		this.populateUIListFromArray(this.itemNames, this.itemsContainer);
+		this.populateUIListFromArray(this.itemNames, this.itemsContainer, "ui.update()");
 		this.linkNodesToItems();
-		this.populateUIListFromArray(this.filters, this.filterContainer);
+		this.populateUIListFromArray(this.filters, this.filterContainer, "ui.update(this)");
 		this.update();
 	}
 
 	linkNodesToItems() {
 		var itemInputs = this.itemsContainer.find("input")
 		for (var i = 0; i < itemInputs.length; i++) {
-			debugger
 			this.items[i]["node"] = itemInputs[i];
 		}
 	}
@@ -71,14 +70,14 @@ class WheelUI {
 		return array;
 	}
 
-	createUIListItem(item) {
+	createUIListItem(item, onchangeFunc) {
 		var li = $(document.createElement("li"));
 		var label = this.createLabelElement(item, {for: item.toLowerCase()});
 		var input = this.createInputElement({
 			id: item.toLowerCase(),
 			type: "checkbox",
 			checked: true,
-			onchange: "ui.update()"
+			onchange: onchangeFunc
 		});
 		return li.append(input).append(label);
 	}
@@ -93,14 +92,14 @@ class WheelUI {
 		return $(document.createElement("input")).attr(inputAttributes);
 	}
 
-	populateUIListFromArray(array, container) {
+	populateUIListFromArray(array, container, onchangeFunc) {
 		for (var i = 0; i < array.length; i++) {
 			if (!Array.isArray(array[i])) {
-				container.append(this.createUIListItem(array[i]));
+				container.append(this.createUIListItem(array[i], onchangeFunc));
 			}
 			else {
 				container.append($(document.createElement("hr")));
-				this.populateUIListFromArray(array[i], container);
+				this.populateUIListFromArray(array[i], container, onchangeFunc);
 			};
 		};
 	}
@@ -115,8 +114,18 @@ class WheelUI {
 		return array;
 	}
 
-	update() {
-		
+	setByFilter(filter, bool) {
+		for (var i = 0; i < this.items.length; i++) {
+			if (this.items[i]["filters"].includes(filter.toLowerCase())) {
+				this.items[i]["node"].checked = bool;
+			}
+		}
+	}
+
+	update(filterInput = null) {
+		if (filterInput) {
+			this.setByFilter(filterInput.id, filterInput.checked);
+		}
 		console.log(this.getSelected());
 		// Update wheel with this.getSelected
 	}
