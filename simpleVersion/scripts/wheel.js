@@ -40,12 +40,12 @@ class Wheel {
 	}
 
 	drawSegments() {
-		var angle1 = 0, angle2 = 0;
-		for (var i = 0; i < this.segments.length; i++) {
-			angle1 += (2 * Math.PI / this.segments.length);
-			this.drawSegment(angle2, angle1, i);
-			angle2 = angle1;
-		}
+		var angle1 = 0, angle2 = 0, self = this;
+		$.each(this.segments, function(i, segment) {
+			angle1 += 2 * Math.PI / self.segments.length;
+			self.drawSegment(angle2, angle1, i);
+			angle2 = angle1
+		});
 	}
 
 	drawSegment(angle1, angle2, i) {
