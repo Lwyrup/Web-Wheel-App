@@ -35,7 +35,7 @@ class Wheel {
 
 	drawWheel() {
 		this.canvas.clear();
-		this.canvas.drawCircle(this.centerX, this.centerY, this.diameter);
+		this.canvas.circle(this.centerX, this.centerY, this.diameter);
 		this.drawSegments();
 	}
 
@@ -44,12 +44,12 @@ class Wheel {
 		$.each(this.segments, function(i, segment) {
 			angle1 += 2 * Math.PI / self.segments.length;
 			self.drawSegment(angle2, angle1, i);
-			angle2 = angle1
+			angle2 = angle1;
 		});
 	}
 
 	drawSegment(angle1, angle2, i) {
-		this.canvas.drawCircle(this.centerX, this.centerY, this.diameter, angle1, angle2);
+		this.canvas.circle(this.centerX, this.centerY, this.diameter, angle1, angle2);
 		this.canvas.fillWith(this.colors[i]);
 		this.drawText((angle1 + angle2)/2, this.segments[i]);
 	}
@@ -62,7 +62,7 @@ class Wheel {
 
 	drawNeedle() {
 		var tip = this.centerX + (this.diameter - 40);
-		this.canvas.drawTriangle(tip, this.centerY, 70, 40);
+		this.canvas.triangle(tip, this.centerY, 70, 40);
 	}
 
 	spin() {

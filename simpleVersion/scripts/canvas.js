@@ -17,7 +17,7 @@ class Canvas {
 		return canvas;
 	}
 
-	drawCircle(x, y, d, angle1 = 0, angle2 = 2 * Math.PI) {
+	circle(x, y, d, angle1 = 0, angle2 = 2 * Math.PI) {
 		this.context.beginPath();
 		this.context.arc(x, y, d, angle1, angle2);
 		this.context.lineTo(x, y);
@@ -25,11 +25,11 @@ class Canvas {
 		this.context.stroke();
 	}
 
-	drawTriangle(tip, center, sizeX, sizeY) {
+	triangle(tip, center, sizeX, sizeY) {
 		this.context.beginPath();
 		this.context.moveTo(tip, center);
-		this.context.lineTo(tip + sizeX, center + sizeY/2);
-		this.context.lineTo(tip + sizeX, center - sizeY/2);
+		this.context.lineTo(tip + sizeX, center + sizeY / 2);
+		this.context.lineTo(tip + sizeX, center - sizeY / 2);
 		this.fillWith("#ffffff")
 		this.context.stroke();
 	}
