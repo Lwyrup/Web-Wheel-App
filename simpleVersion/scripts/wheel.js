@@ -7,7 +7,6 @@ class Wheel {
 		this.canvasOffset = {x: 0, y: 0};
 		this.rotation = 0;
 		this.canvas = new Canvas(wheelContainer, this.circleCenter.x);
-		this.ctx = this.canvas.context;
 		this.init();
 	}
 
@@ -41,18 +40,17 @@ class Wheel {
 	}
 
 	drawSegments() {
-		var endAngle, startAngle = 0;
+		var angle1 = 0, angle2 = 0;
 		for (var i = 0; i < this.segments.length; i++) {
-			endAngle = (2 * Math.PI / this.segments.length) * (i + 1);
-			this.drawSegment(startAngle, endAngle, i);
-			startAngle = endAngle;
+			angle1 += (2 * Math.PI / this.segments.length);
+			this.drawSegment(angle2, angle1, i);
+			angle2 = angle1;
 		}
 	}
 
 	drawSegment(angle1, angle2, i) {
 		this.canvas.drawCircle(this.centerX, this.centerY, this.diameter, angle1, angle2);
 		this.canvas.fillWith(this.colors[i]);
-
 		this.drawText((angle1 + angle2)/2, this.segments[i]);
 	}
 
@@ -67,41 +65,36 @@ class Wheel {
 		this.canvas.drawTriangle(tip, this.centerY, 70, 40);
 	}
 
-	spin(wheel = this) {
+	spin() {
+		var self = this;
 		var initSpeed = 0.2 + 0.1 * Math.random();
 		var acceleration = 0.001;
 		var spinInterval = setInterval( function() {
 			if (initSpeed > 0) {
-
-				wheel.canvas.clear();
-				wheel.canvas.rotate(wheel.centerX, wheel.centerY, -wheel.currentRotation);
-				
-
-				wheel.currentRotation += initSpeed;
+				self.canvas.clear();
+				self.canvas.rotate(self.centerX, self.centerY, -self.currentRotation);
+				self.currentRotation += initSpeed;
 				initSpeed -= acceleration;
-
-					wheel.canvasOffset = wheel.circleCenter;
-				wheel.drawWheel();
-					wheel.canvasOffset = {x: 0, y: 0};
-				wheel.canvas.restore();
-				wheel.drawNeedle();	
-
-				wheel.determineResult();
+				self.canvasOffset = self.circleCenter;
+				self.drawWheel();
+				self.canvasOffset = {x: 0, y: 0};
+				self.canvas.restore();
+				self.drawNeedle();	
+				self.determineResult();
 			} else if (initSpeed <= 0) {
 				clearInterval(spinInterval);
 			}
 		}, 20);
 	}
 
-	determineResult(wheel = this) {
-		// Correct only when spinning anti-clockwise
-		var radsPSeg = 2 * Math.PI / wheel.segments.length;
-		var pickedIndex = Math.floor(wheel.currentRotation / radsPSeg);
-		var pickedSeg = wheel.segments[pickedIndex];
-		wheel.displayResult(wheel, pickedSeg);
+	determineResult() {
+		var radsPSeg = 2 * Math.PI / this.segments.length;
+		var pickedIndex = Math.floor(this.currentRotation / radsPSeg);
+		var pickedSeg = this.segments[pickedIndex];
+		this.displayResult(pickedSeg);
 	}
 
-	displayResult(wheel = this, text) {
-		wheel.canvas.writeText(text, wheel.centerX * 2, wheel.centerY + 15, "start");
+	displayResult(text) {
+		this.canvas.writeText(text, this.centerX * 2, this.centerY + 15, "start");
 	}
 }
