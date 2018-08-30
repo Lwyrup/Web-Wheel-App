@@ -23,6 +23,7 @@ class Wheel {
 	}
 
 	set currentRotation(deltaAngle) {
+		debugger;
 		if (deltaAngle > 2 * Math.PI) {
 			deltaAngle -= 2 * Math.PI;
 		}
@@ -41,14 +42,8 @@ class Wheel {
 
 	drawWheel() {
 		this.canvas.clear();
-		this.drawCircle(this.centerX, this.centerY, this.diameter);
+		this.canvas.drawCircle(this.centerX, this.centerY, this.diameter);
 		this.drawSegments();
-	}
-
-	drawCircle(x, y, d) {
-		this.ctx.beginPath();
-		this.ctx.arc(x, y, d, 0 , 2 * Math.PI);
-		this.ctx.stroke();
 	}
 
 	drawSegments() {
@@ -61,38 +56,21 @@ class Wheel {
 	}
 
 	drawSegment(angle1, angle2, i) {
-		this.ctx.beginPath();
-		this.ctx.arc(this.centerX, this.centerY, this.diameter, angle1, angle2);
-		this.ctx.lineTo(this.centerX, this.centerY);
-		this.ctx.closePath();
-		this.ctx.fillStyle = this.colors[i];
-		this.ctx.fill();
-		this.ctx.stroke();
+		this.canvas.drawCircle(this.centerX, this.centerY, this.diameter, angle1, angle2);
+		this.canvas.fillWith(this.colors[i]);
+
 		this.drawText((angle1 + angle2)/2, this.segments[i]);
 	}
 
 	drawText(angle, text) {
-		this.ctx.save();
-		this.ctx.translate(this.centerX, this.centerY);
-		this.ctx.rotate(angle);
-
-		this.ctx.font = "30px Arial";
-		this.ctx.textAlign = "right";
-		this.ctx.fillStyle = "#000000"
-		this.ctx.fillText(text, 240, 15);
-
-		this.ctx.restore();
+		this.canvas.rotate(this.centerX, this.centerY, angle);
+		this.canvas.writeText(text, 240, 15);
+		this.canvas.restore();
 	}
 
 	drawNeedle() {
 		var tip = this.centerX + (this.diameter - 40);
-		this.ctx.beginPath();
-		this.ctx.moveTo(tip, this.centerY);
-		this.ctx.lineTo(tip + 70, this.centerY + 20);
-		this.ctx.lineTo(tip + 70, this.centerY - 20);
-		this.ctx.fillStyle = "#ffffff";
-		this.ctx.fill();
-		this.ctx.stroke();
+		this.canvas.drawTriangle(tip, this.centerY, 70, 40);
 	}
 
 	spin(wheel = this) {
@@ -100,17 +78,20 @@ class Wheel {
 		var acceleration = 0.001;
 		var spinInterval = setInterval( function() {
 			if (initSpeed > 0) {
+
 				wheel.canvas.clear();
-				wheel.ctx.save();
-				wheel.ctx.translate(wheel.centerX, wheel.centerY);
-				wheel.ctx.rotate(-wheel.currentRotation);
+				wheel.canvas.rotate(wheel.centerX, wheel.centerY, -wheel.currentRotation);
+				
+
 				wheel.currentRotation += initSpeed;
 				initSpeed -= acceleration;
-				wheel.canvasOffset = wheel.circleCenter;
+
+					wheel.canvasOffset = wheel.circleCenter;
 				wheel.drawWheel();
-				wheel.canvasOffset = {x: 0, y: 0};
-				wheel.ctx.restore();
+					wheel.canvasOffset = {x: 0, y: 0};
+				wheel.canvas.restore();
 				wheel.drawNeedle();	
+
 				wheel.determineResult();
 			} else if (initSpeed <= 0) {
 				clearInterval(spinInterval);
@@ -127,8 +108,6 @@ class Wheel {
 	}
 
 	displayResult(wheel = this, text) {
-		wheel.ctx.font = "30px Arial";
-		wheel.ctx.fillStyle = "#000000";
-		wheel.ctx.fillText(text, wheel.centerX * 2, wheel.centerY + 15);
+		wheel.canvas.writeText(text, wheel.centerX * 2, wheel.centerY + 15, "start");
 	}
 }
