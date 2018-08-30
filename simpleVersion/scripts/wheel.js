@@ -1,5 +1,3 @@
-// TODO: Refactor/move drawing implementation into canvas class?
-
 class Wheel {
 	constructor(wheelSize, segmentArray, wheelContainer) {
 		this.segments = segmentArray;
@@ -23,11 +21,7 @@ class Wheel {
 	}
 
 	set currentRotation(deltaAngle) {
-		debugger;
-		if (deltaAngle > 2 * Math.PI) {
-			deltaAngle -= 2 * Math.PI;
-		}
-		this.rotation = deltaAngle;
+		this.rotation = deltaAngle % (2 * Math.PI);
 	}
 
 	get currentRotation() {
