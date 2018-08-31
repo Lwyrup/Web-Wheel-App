@@ -1,6 +1,4 @@
-// Init declarations and assignments
-const ALL_ITEMS_CONTAINER = $(".all-items");
-const FILTERS_CONTAINER = $(".filters");
+// Globals
 var wheel;
 var mockFilters =
 [
@@ -35,6 +33,35 @@ var mockItems =
 	}
 ];
 
+class WheelApp extends HTMLElement {
+	constructor() {
+		super();
+
+		var shadow = this.attachShadow({mode: "open"}),
+			controls = document.createElement("div"),
+			itemsContainer = document.createElement("ul"),
+			filterContainer = document.createElement("ul"),
+			wheelContainer = document.createElement("div");
+		
+		controls.setAttribute("class", "controls");
+		itemsContainer.setAttribute("class", "all-items");
+		filterContainer.setAttribute("class", "filters");
+		wheelContainer.setAttribute("class", "wheelContainer");
+
+		shadow.appendChild(controls);
+		shadow.appendChild(wheelContainer);
+		controls.appendChild(itemsContainer);
+		controls.appendChild(filterContainer);
+		
+		var containers = [itemsContainer, filterContainer, wheelContainer];
+		WheelApp.ui = new WheelUI(mockItems, mockFilters, containers);
+	}
+}
+
+customElements.define("wheel-app", WheelApp);
+
+
+
 // Execution begins here
-var containers = [ALL_ITEMS_CONTAINER, FILTERS_CONTAINER];
-var ui = new WheelUI(mockItems, mockFilters, containers);
+// var containers = [ALL_ITEMS_CONTAINER, FILTERS_CONTAINER];
+// var ui = new WheelUI(mockItems, mockFilters, containers);

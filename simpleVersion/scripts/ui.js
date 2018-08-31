@@ -4,6 +4,7 @@ class WheelUI {
 		this.filters = filters;
 		this.itemsContainer = containers[0];
 		this.filterContainer = containers[1];
+		this.wheelContainer = containers[2];
 		this.init();
 	}
 
@@ -28,8 +29,8 @@ class WheelUI {
 
 	// Functions
 	init() {
-		this.populateUIListFromArray(this.itemNames, this.itemsContainer, "ui.update()");
-		this.populateUIListFromArray(this.filters, this.filterContainer, "ui.update(this)");
+		this.populateUIListFromArray(this.itemNames, this.itemsContainer, "WheelApp.ui.update()");
+		this.populateUIListFromArray(this.filters, this.filterContainer, "WheelApp.ui.update(this)");
 		this.linkNodesToItems();
 		this.update();
 	}
@@ -38,9 +39,9 @@ class WheelUI {
 		var self = this;
 		$.each(array, function(i, arrayEle) {
 			if (!Array.isArray(arrayEle)) {
-				container.append(self.createUIListItem(arrayEle, onchangeFunc));
+				$(container).append(self.createUIListItem(arrayEle, onchangeFunc));
 			} else {
-				container.append($(document.createElement("hr")));
+				$(container).append($(document.createElement("hr")));
 				self.populateUIListFromArray(arrayEle, container, onchangeFunc);
 			}
 		});
@@ -69,7 +70,7 @@ class WheelUI {
 	}
 
 	linkNodesToItems() {
-		var itemInputs = this.itemsContainer.find("input"), self = this;
+		var itemInputs = $(this.itemsContainer).find("input"), self = this;
 		$.each(itemInputs, function(i, itemInput) {
 			self.items[i]["node"] = itemInput;
 		});
@@ -79,7 +80,7 @@ class WheelUI {
 		if (filterInput) {
 			this.setByFilter(filterInput.id, filterInput.checked);
 		}
-		wheel = new Wheel(250, this.checkedItems, $("#wheelContainer")[0]);
+		wheel = new Wheel(250, this.checkedItems, this.wheelContainer);
 	}
 
 	setByFilter(filter, bool) {
