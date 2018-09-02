@@ -53,7 +53,7 @@ class WheelApp extends HTMLElement {
 		controls.appendChild(itemsContainer);
 		controls.appendChild(filterContainer);
 		
-		var containers = [itemsContainer, filterContainer, wheelContainer];
+		WheelApp.containers = [itemsContainer, filterContainer, wheelContainer];
 		WheelApp.ui = new WheelUI(mockItems, mockFilters, containers);
 	}
 }
