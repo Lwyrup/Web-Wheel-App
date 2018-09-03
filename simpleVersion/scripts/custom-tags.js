@@ -21,7 +21,6 @@ class WheelAppElement extends HTMLElement {
 		controls.appendChild(itemsContainer);
 		controls.appendChild(filterContainer);
 		
-		WheelAppElement.containers = [itemsContainer, filterContainer, wheelContainer];
-		WheelAppElement.ui = new WheelUI(mockItems, mockFilters, WheelAppElement.containers);
+		wheelApp = new WheelApp([itemsContainer, filterContainer, wheelContainer]);
 	}
 }

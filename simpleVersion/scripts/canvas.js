@@ -10,7 +10,7 @@ class Canvas {
 			height: size * 2,
 			width: size * 2 + 400,
 			id: "canvas",
-			onclick: "wheel.spin()"
+			onclick: "wheelApp.spin()"
 		})[0];
 		container.innerHTML = null;
 		container.append(canvas);

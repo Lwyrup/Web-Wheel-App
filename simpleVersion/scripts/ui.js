@@ -29,8 +29,8 @@ class WheelUI {
 
 	// Functions
 	init() {
-		this.populateUIListFromArray(this.itemNames, this.itemsContainer, "WheelAppElement.ui.update()");
-		this.populateUIListFromArray(this.filters, this.filterContainer, "WheelAppElement.ui.update(this)");
+		this.populateUIListFromArray(this.itemNames, this.itemsContainer, "wheelApp.update()");
+		this.populateUIListFromArray(this.filters, this.filterContainer, "wheelApp.update(this)");
 		this.linkNodesToItems();
 		this.update();
 	}
@@ -80,7 +80,6 @@ class WheelUI {
 		if (filterInput) {
 			this.setByFilter(filterInput.id, filterInput.checked);
 		}
-		wheel = new Wheel(250, this.checkedItems, this.wheelContainer);
 	}
 
 	setByFilter(filter, bool) {

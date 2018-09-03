@@ -1,5 +1,5 @@
 // Globals
-var wheel;
+var wheelApp;
 var mockFilters =
 [
 	["hot", "cold"],
@@ -33,9 +33,5 @@ var mockItems =
 	}
 ];
 
-// Define our custom element
+// Define custom elements
 customElements.define("wheel-app", WheelAppElement);
-
-// Execution begins here
-// var containers = [ALL_ITEMS_CONTAINER, FILTERS_CONTAINER];
-// var ui = new WheelUI(mockItems, mockFilters, containers);
