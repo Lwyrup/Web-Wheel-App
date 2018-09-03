@@ -33,7 +33,7 @@ var mockItems =
 	}
 ];
 
-class WheelApp extends HTMLElement {
+class WheelAppElement extends HTMLElement {
 	constructor() {
 		super();
 
@@ -56,12 +56,12 @@ class WheelApp extends HTMLElement {
 		controls.appendChild(itemsContainer);
 		controls.appendChild(filterContainer);
 		
-		WheelApp.containers = [itemsContainer, filterContainer, wheelContainer];
-		WheelApp.ui = new WheelUI(mockItems, mockFilters, WheelApp.containers);
+		WheelAppElement.containers = [itemsContainer, filterContainer, wheelContainer];
+		WheelAppElement.ui = new WheelUI(mockItems, mockFilters, WheelAppElement.containers);
 	}
 }
 
-customElements.define("wheel-app", WheelApp);
+customElements.define("wheel-app", WheelAppElement);
 
 
 

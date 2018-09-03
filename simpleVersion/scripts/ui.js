@@ -29,8 +29,8 @@ class WheelUI {
 
 	// Functions
 	init() {
-		this.populateUIListFromArray(this.itemNames, this.itemsContainer, "WheelApp.ui.update()");
-		this.populateUIListFromArray(this.filters, this.filterContainer, "WheelApp.ui.update(this)");
+		this.populateUIListFromArray(this.itemNames, this.itemsContainer, "WheelAppElement.ui.update()");
+		this.populateUIListFromArray(this.filters, this.filterContainer, "WheelAppElement.ui.update(this)");
 		this.linkNodesToItems();
 		this.update();
 	}
