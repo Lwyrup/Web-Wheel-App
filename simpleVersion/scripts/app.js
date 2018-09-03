@@ -1,7 +1,8 @@
 class WheelApp {
 	constructor(containers) {
 		this.containers = containers;
-		this.ui = new WheelUI(mockItems, mockFilters, containers);
+		this.appData = [mockItems, mockFilters]
+		this.ui = new WheelUI(this.appData[0], this.appData[1], this.containers);
 		this.wheel = new Wheel(250, this.ui.checkedItems, this.containers[2]);
 	}
 

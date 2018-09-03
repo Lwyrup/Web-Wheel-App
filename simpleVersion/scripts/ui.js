@@ -4,7 +4,6 @@ class WheelUI {
 		this.filters = filters;
 		this.itemsContainer = containers[0];
 		this.filterContainer = containers[1];
-		this.wheelContainer = containers[2];
 		this.init();
 	}
 
