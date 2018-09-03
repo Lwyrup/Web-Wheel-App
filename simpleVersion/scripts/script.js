@@ -41,12 +41,15 @@ class WheelApp extends HTMLElement {
 			controls = document.createElement("div"),
 			itemsContainer = document.createElement("ul"),
 			filterContainer = document.createElement("ul"),
-			wheelContainer = document.createElement("div");
+			wheelContainer = document.createElement("div"),
+			css = document.createElement("style");
 		
 		controls.setAttribute("class", "controls");
 		itemsContainer.setAttribute("class", "all-items");
 		filterContainer.setAttribute("class", "filters");
 		wheelContainer.setAttribute("class", "wheelContainer");
+		// css styles for custom element defined here
+		css.textContent = "";
 
 		shadow.appendChild(controls);
 		shadow.appendChild(wheelContainer);
@@ -54,7 +57,7 @@ class WheelApp extends HTMLElement {
 		controls.appendChild(filterContainer);
 		
 		WheelApp.containers = [itemsContainer, filterContainer, wheelContainer];
-		WheelApp.ui = new WheelUI(mockItems, mockFilters, containers);
+		WheelApp.ui = new WheelUI(mockItems, mockFilters, WheelApp.containers);
 	}
 }
 
