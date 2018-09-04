@@ -7,17 +7,20 @@ class WheelAppElement extends HTMLElement {
 			itemsContainer = document.createElement("ul"),
 			filterContainer = document.createElement("ul"),
 			wheelContainer = document.createElement("div"),
-			css = document.createElement("style");
+			css = document.createElement("style"),
+			link = document.createElement("link");
 		
 		controls.setAttribute("class", "controls");
 		itemsContainer.setAttribute("class", "all-items");
 		filterContainer.setAttribute("class", "filters");
-		wheelContainer.setAttribute("class", "wheelContainer");
-		// css styles for custom element defined here
-		css.textContent = ".controls{} .all-items{} .filters{} .wheelContainer{}";
+		wheelContainer.setAttribute("class", "wheel-container");
+		link.setAttribute("rel", "stylesheet");
+		link.setAttribute("type", "text/css");
+		link.setAttribute("href", "styles.css");
 
 		shadow.appendChild(controls);
 		shadow.appendChild(wheelContainer);
+		shadow.appendChild(link);
 		controls.appendChild(itemsContainer);
 		controls.appendChild(filterContainer);
 		
