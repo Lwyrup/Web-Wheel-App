@@ -7,7 +7,6 @@ class WheelAppElement extends HTMLElement {
 			itemsContainer = document.createElement("ul"),
 			filterContainer = document.createElement("ul"),
 			wheelContainer = document.createElement("div"),
-			css = document.createElement("style"),
 			link = document.createElement("link");
 		
 		controls.setAttribute("class", "controls");
