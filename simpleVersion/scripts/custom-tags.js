@@ -14,7 +14,7 @@ class WheelAppElement extends HTMLElement {
 		filterContainer.setAttribute("class", "filters");
 		wheelContainer.setAttribute("class", "wheelContainer");
 		// css styles for custom element defined here
-		css.textContent = "";
+		css.textContent = ".controls{} .all-items{} .filters{} .wheelContainer{}";
 
 		shadow.appendChild(controls);
 		shadow.appendChild(wheelContainer);
