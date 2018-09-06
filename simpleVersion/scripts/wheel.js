@@ -1,3 +1,4 @@
+// TODO: Make wheel scalable
 class Wheel {
 	constructor(wheelSize, segmentArray, wheelContainer) {
 		this.segments = segmentArray;
