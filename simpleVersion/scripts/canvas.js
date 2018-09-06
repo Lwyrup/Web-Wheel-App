@@ -6,9 +6,8 @@ class Canvas {
 
 	createCanvas(container, size){
 		var canvas = $(document.createElement("canvas")).attr({
-			style: "border:1px solid #000000;",
 			height: size * 2,
-			width: size * 2 + 400,
+			width: size * 2 + 200,
 			id: "canvas",
 			onclick: "wheelApp.spin()"
 		})[0];
