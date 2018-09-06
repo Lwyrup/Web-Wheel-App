@@ -17,8 +17,8 @@ class WheelAppElement extends HTMLElement {
 		link.setAttribute("type", "text/css");
 		link.setAttribute("href", "styles.css");
 
-		shadow.appendChild(controls);
 		shadow.appendChild(wheelContainer);
+		shadow.appendChild(controls);
 		shadow.appendChild(link);
 		controls.appendChild(itemsContainer);
 		controls.appendChild(filterContainer);
